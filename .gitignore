@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.npm-cache/
+.smoke-build/
+*.log
+PRD.md
+DESIGN.md
+AGENT.md
