@@ -1,0 +1,42 @@
+/** 文章详情页 */
+
+.article {
+  max-width: 760px;
+}
+
+.back {
+  padding-inline: 0;
+  margin-bottom: var(--ant-margin-xs);
+}
+
+.title {
+  margin-top: 0;
+  margin-bottom: var(--ant-margin-xs);
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ant-margin);
+  margin-top: calc(var(--ant-margin) * 0.75);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.divider {
+  margin: calc(var(--ant-margin) * 1.25) 0;
+  border-top: 1px solid var(--ant-color-border-secondary);
+}

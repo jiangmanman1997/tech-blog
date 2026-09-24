@@ -1,5 +1,6 @@
 import { Tag } from 'antd';
-import { SITE } from '../constants/site';
+import { SITE } from '../../constants/site';
+import styles from './index.module.scss';
 
 /** 标签统一走这里，颜色表在 constants/site.ts */
 export function TagList({ tags }: { tags: string[] }) {
@@ -8,7 +9,11 @@ export function TagList({ tags }: { tags: string[] }) {
   return (
     <>
       {tags.map((tag) => (
-        <Tag key={tag} color={SITE.tagColors[tag] ?? SITE.tagFallbackColor} style={{ marginInlineEnd: 6 }}>
+        <Tag
+          key={tag}
+          className={styles['tag']}
+          color={SITE.tagColors[tag] ?? SITE.tagFallbackColor}
+        >
           {tag}
         </Tag>
       ))}

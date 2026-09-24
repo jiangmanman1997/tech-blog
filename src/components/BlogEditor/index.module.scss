@@ -1,0 +1,14 @@
+/** 文章编辑弹窗：弹窗用 antd Modal，这里只补正文区紧凑度和最后一个字段的底边距 */
+
+.body {
+  padding-top: var(--ant-padding-xs);
+}
+
+.content-input {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  font-size: 13.5px;
+}
+
+.row {
+  margin-bottom: 0;
+}

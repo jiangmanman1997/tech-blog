@@ -1,0 +1,32 @@
+/**
+ * 头部导航栏。
+ * Layout.Header 默认 64px 固定高度 + 奇怪的 line-height，这里改成自适应并居中限宽。
+ */
+
+.header {
+  height: auto;
+  line-height: normal;
+  padding: 0 $content-gutter;
+  background: var(--ant-color-bg-container);
+  border-bottom: 1px solid var(--ant-color-border-secondary);
+
+  :global(.ant-menu-horizontal) {
+    border-bottom: none;
+    background: var(--ant-color-bg-container);
+  }
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-margin);
+  width: 100%;
+  max-width: $content-width;
+  height: $nav-height;
+  margin: 0 auto;
+}
+
+.nav {
+  flex: auto;
+  min-width: 0;
+}

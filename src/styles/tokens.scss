@@ -1,0 +1,14 @@
+/**
+ * 样式变量（编译期的值）。
+ *
+ * 只放「不需要在 JS 里用到、也不会随主题变化」的固定尺寸，避免同一个数字写好几遍。
+ * 颜色、间距、圆角这类能跟着主题变的值，一律用 antd 暴露的 CSS 变量（--ant-*）。
+ *
+ * 各 *.module.scss 通过 sass-loader 的 additionalData 自动引入，不用手写 @use。
+ */
+$content-width: 1080px;
+$content-gutter: 24px;
+$nav-height: 64px;
+$avatar-lg: 88px;
+$avatar-md: 72px;
+$article-column-min: 380px;

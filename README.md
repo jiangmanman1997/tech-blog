@@ -18,7 +18,7 @@ npm run dev        # http://localhost:3000
 | 名字、头衔、自我介绍、头像、邮箱、城市、关注方向、社交链接 | `src/content/profile.ts` |
 | 初始文章（标题、摘要、正文、标签、日期） | `src/content/posts.ts` |
 | 站点常量：主色、首页最近文章条数、标签颜色、导航项、localStorage key | `src/constants/site.ts` |
-| 颜色、间距、圆角、正文字号等设计 token | 主色改 `src/constants/site.ts` 的 `BRAND_COLOR`；Markdown 正文版式在 `src/styles/global.css` |
+| 颜色、间距、字号等设计 token | 主色在 `src/app/index.tsx` 的 ConfigProvider；公共尺寸在 `src/styles/tokens.scss`；颜色一律用 antd 的 CSS 变量 |
 | 页面标题、站点描述 | `public/index.html` |
 | 头像图片文件 | 放到 `public/` 下，然后在 profile.ts 里写 `avatar: '/avatar.jpg'` |
 
@@ -41,37 +41,68 @@ npm run dev        # http://localhost:3000
 | `npm run build` | 生产构建，输出到 `dist/` |
 | `npm run typecheck` | TypeScript 类型检查（构建只转译，类型检查靠这条） |
 | `npm test` | Node 原生 test runner，跑 `src/**/*.test.ts`（Markdown 渲染、日期工具、文章 store） |
-| `npm run smoke` | 冒烟测试：webpack 打包整个应用后在 jsdom 里挂载，检查三个页面能渲染、写文章/复制邮箱/主题切换不报错 |
+| `npm run smoke` | 冒烟测试：webpack 打包整个应用后在 jsdom 里挂载，检查三个页面能渲染、样式类名生效、写文章/复制邮箱/主题切换不报错 |
+| `node scripts/verify-dist.mjs` | 用 `dist/` 的**生产产物**在 jsdom 里跑一遍（先 `npm run build`），确认生产构建下页面不白屏、类名没被优化掉 |
 
 ## 目录结构
 
+一个组件/页面一个文件夹，组件文件叫 `index.tsx`，样式文件叫 `index.module.scss`，放在一起：
+
 ```
 src
-├── components      复用组件：NavBar、PageShell、PostCard、TagList、Markdown、BlogEditor
-├── constants       站点常量（颜色表、路由、导航项、storage key）
+├── App.tsx         路由 + antd 主题（浅色/深色）
+├── App.module.scss
+├── index.tsx       入口：createRoot + BrowserRouter（只负责挂载）
+├── components
+│   ├── NavBar          index.tsx / index.module.scss
+│   ├── PageShell       index.tsx / index.module.scss
+│   ├── PostCard        index.tsx / index.module.scss
+│   ├── TagList         index.tsx / index.module.scss
+│   ├── Markdown        index.tsx / index.module.scss
+│   └── BlogEditor      index.tsx / index.module.scss
+├── constants       站点常量（标签颜色、路由、导航项、storage key）
 ├── content         你要填的内容：profile.ts / posts.ts
 ├── hooks           useTheme（主题写进 body[data-theme]）、useScrollToTop
 ├── pages
-│   ├── home        首页：自我介绍 + 最近 5 篇文章
-│   ├── blog        index 按路由分发，PostList 列表 / PostDetail 详情
-│   ├── about       关于页：邮箱一键复制
-│   └── not-found   404
+│   ├── Home            首页：自我介绍 + 最近 5 篇文章
+│   ├── About           关于页：邮箱一键复制
+│   ├── Blog            index.tsx 按路由分发
+│   │   ├── PostList      列表（写文章 / 编辑 / 删除）
+│   │   └── PostDetail    详情（Markdown 正文）
+│   └── NotFound        404
 ├── store           zustand：postStore（文章，持久化）、uiStore（主题）
-├── styles          global.css（只有 Markdown 正文版式，颜色走 antd CSS 变量）
-├── types           共用类型
-├── utils           format（日期/阅读时长/摘要）、clipboard（复制）、markdown（渲染）
-├── App.tsx         路由 + antd 主题（浅色/深色）
-└── index.tsx       入口
+├── styles          global.scss（reset）、tokens.scss（SCSS 尺寸变量）
+├── types           共用类型 + *.module.scss 的模块声明
+└── utils           format（日期/阅读时长/摘要）、clipboard（复制）、markdown（渲染）
 ```
+
+**入口必须有 `createRoot(...).render(...)`**：`src/index.tsx` 只做挂载，组件在 `src/App.tsx`。
+如果入口只 `export` 组件而不调用 render，webpack 一样编译成功、浏览器控制台也不报错，
+但 `#root` 永远是空的——页面全白。两件事分开写就是为了避免这种误改。
+
+样式约定：**不要在组件里写 `style={{ ... }}`**，需要样式就在同目录的 `index.module.scss` 加类，然后 `styles['xxx']` 取用。
+类名会被哈希，但都会带上组件名前缀（开发环境 `NavBar-header`，生产环境 `NavBar-header__8vayd`），方便在 DevTools 里认出来。
+
+### 样式相关的三个坑（都已修好，别改回去）
+
+1. **`css-loader` 必须用 CommonJS 形态导出** —— `webpack.config.js` 里显式写了 `esModule: false` + `modules.namedExport: false`。
+   用 v7 的默认值（都是 true）时，`import styles from './index.module.scss'` 会拿到 `undefined`，
+   `styles['layout']` 直接抛错、样式全丢。TypeScript 完全不会提示，只有跑起来才炸。
+2. **键名不做转换** —— `exportLocalsConvention: 'as-is'`，所以 `.hero-body` 就用 `styles['hero-body']` 取。
+   切成 `camel-case-only` 的话，键会变成 `heroBody`，代码里所有中划线键静默变 `undefined`。
+3. **`optimization.usedExports` 保持 `false`** —— 开着它时生产构建会把 CSS Modules 的导出当死代码删掉，
+   表现和上面第 1 条一样（开发模式不删，所以只在 `npm run build` 后白屏）。
+   `npm run smoke` 现在会断言「页面上真的有 `Home-page`、`PostCard-card` 这些类名」，改错了会直接测挂。
 
 ## 实现要点
 
-- **设计语言**：界面就是 antd 本身的样子——按钮、卡片、头像、标签、弹窗、下拉都不覆盖 antd 的配色和阴影，只保留图标本身带颜色；文章 item 是 `Card variant="outlined"`（带边框）。换主色只改 `src/constants/site.ts` 的 `BRAND_COLOR`，ConfigProvider 会推出整套主题色。
-- **唯一需要自己写样式的地方**是 Markdown 正文（不在 antd 组件体系里），见 `src/styles/global.css` 的 `.markdown-body`，其中颜色引用 antd 暴露的 CSS 变量（`--ant-color-*`），所以深色模式和换主色都不用改它。
+- **设计语言**：界面就是 antd 本身的样子——按钮、卡片、头像、标签、弹窗、下拉都不覆盖 antd 的配色和阴影，只保留图标本身带颜色；文章 item 是 `Card variant="outlined"`（带边框）。主色用 antd 默认值，想换就在 `src/App.tsx` 的 ConfigProvider 里加 `colorPrimary`。
+- **样式**：布局、间距、栅格写在 `*.module.scss`（CSS Modules + SCSS，配 `sass-loader` / `css-loader` / `style-loader`）；颜色、圆角、间距刻度一律引用 antd 暴露的 CSS 变量（`--ant-color-*` / `--ant-margin*`），所以深色模式和换主色都不用改样式文件。公共尺寸变量在 `src/styles/tokens.scss`，每个 `*.module.scss` 会自动 `@use` 进来，不用手写。
+- **唯一没有组件包裹的样式**是 Markdown 正文（渲染出的 HTML 不在 antd 组件体系里），放在 `src/components/Markdown/index.module.scss`，子元素用 `:global()` 选择。
 - **代码分割**：每个页面一个 `import()`，首次访问才下载对应 chunk；框架核心单独一个可长期缓存的 chunk，其余第三方按包拆（配置在 `webpack.config.js`，注释里写了为什么不能并成一个 vendors）。
 - **状态管理**：组件内部状态用 `useState`，跨页面共享（文章、主题）用 zustand，见 `src/store/`。
 - **主题**：导航栏右侧按钮切换浅色/深色，antd 走 `darkAlgorithm`，同时把主题写到 `body[data-theme]`。首次访问跟随系统 `prefers-color-scheme`，之后记住你的选择。
-- **样式注入**：`global.css` 由 `style-loader` 注入；想改成独立 `.css` 文件 + link 预加载，引 `mini-css-extract-plugin` 加一条 rule 即可，业务代码不用动。
+- **样式注入**：目前由 `style-loader` 注入 `<style>`；想改成独立 `.css` 文件 + link 预加载，可以引 `mini-css-extract-plugin`，但**必须同时保留上面第 1 条那两条 css-loader 选项**，否则会踩同一个坑。
 - **文章用 Markdown 而不是富文本**：渲染器在 `src/utils/markdown.ts`，行为有单测覆盖（转义、链接白名单、列表、引用、代码块）。
 
 ## 已知边界

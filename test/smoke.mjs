@@ -131,6 +131,24 @@ const textOf = (container) => container.textContent ?? '';
 /** 文章 item 是带边框的 antd Card，这里按卡片数量判断 */
 const postCards = (container) => container.querySelectorAll('.ant-card');
 
+/**
+ * 组件里的 styles['xxx'] 必须真的落到 DOM 上。
+ * 上一个坑就是样式模块的默认导出是 undefined，className 静默变成 undefined、样式全丢，
+ * 而当时的冒烟测试只断言文字和 antd 类名，完全测不出来。
+ */
+const assertOwnClasses = (container, label) => {
+  assert.equal(
+    container.querySelectorAll('[class*="undefined"]').length,
+    0,
+    `${label}：className 里不应该出现 undefined（说明 styles['xxx'] 取不到值）`,
+  );
+  const ownClasses = [...container.querySelectorAll('[class]')]
+    .flatMap((el) => String(el.className).split(/\s+/))
+    .filter((name) => name && !/^(ant-|css-|anticon)/.test(name));
+  assert.ok(ownClasses.length > 0, `${label}：应该有 CSS Modules 生成的类名`);
+  return ownClasses;
+};
+
 // 1) 首页：自我介绍 + 最近 5 篇文章
 {
   const container = await render('/');
@@ -141,7 +159,12 @@ const postCards = (container) => container.querySelectorAll('.ant-card');
   // 1 张自我介绍卡 + 5 张文章卡
   assert.equal(postCards(container).length, 1 + 5, '首页最多展示 5 篇（PRD）');
   assert.equal(container.querySelectorAll('.ant-card-bordered').length, 6, '每张卡片都应该有边框');
-  console.log('✓ 首页：自我介绍 + 最近 5 篇文章（都带边框）');
+
+  const own = assertOwnClasses(container, '首页');
+  for (const expected of ['Home-page', 'Home-hero', 'PostCard-card', 'PageShell-layout']) {
+    assert.ok(own.includes(expected), `首页应该用到样式类 ${expected}（当前：${own.join(', ')}）`);
+  }
+  console.log('✓ 首页：自我介绍 + 最近 5 篇文章（都带边框，样式类名已生效）');
 }
 
 // 2) 博客列表页：全部已发布文章 + 写文章入口
@@ -159,7 +182,11 @@ const postCards = (container) => container.querySelectorAll('.ant-card');
     [...container.querySelectorAll('button')].some((button) => button.textContent?.includes('写文章')),
     '博客页应该有「写文章」按钮',
   );
-  console.log('✓ 博客列表页：带边框的文章列表 + 写文章入口');
+  const own = assertOwnClasses(container, '博客列表页');
+  for (const expected of ['PostList-grid', 'PostCard-card', 'PostCard-title']) {
+    assert.ok(own.includes(expected), `博客列表页应该用到样式类 ${expected}`);
+  }
+  console.log('✓ 博客列表页：带边框的文章列表 + 写文章入口 + 样式类名');
 }
 
 // 3) 文章详情：Markdown 落到 DOM 上
@@ -167,19 +194,27 @@ const postCards = (container) => container.querySelectorAll('.ant-card');
   const container = await render('/blog/hello-world');
   const content = textOf(container);
   assert.match(content, /开始写第一篇博客/, '详情页应该渲染标题');
-  assert.equal(container.querySelectorAll('.markdown-body h2').length, 1, '正文里的 ## 应该渲染成 h2');
-  assert.equal(container.querySelectorAll('.markdown-body h3').length, 1, '正文里的 ### 应该渲染成 h3');
-  const code = container.querySelector('.markdown-body pre code');
+  // 正文容器用 data-testid 定位：class 名经过 CSS Modules 哈希，测试里不该依赖它
+  const body = container.querySelector('[data-testid="markdown-body"]');
+  assert.ok(body, '详情页应该有 Markdown 正文容器');
+  assert.equal(body.querySelectorAll('h2').length, 1, '正文里的 ## 应该渲染成 h2');
+  assert.equal(body.querySelectorAll('h3').length, 1, '正文里的 ### 应该渲染成 h3');
+  const code = body.querySelector('pre code');
   assert.ok(code, '正文里的代码块应该渲染成 pre > code');
   assert.match(code?.textContent ?? '', /greet/, '代码块内容应该完整保留');
-  console.log('✓ 文章详情页：标题 / h2 / h3 / 代码块');
+  const own = assertOwnClasses(container, '文章详情页');
+  for (const expected of ['PostDetail-article', 'PostDetail-title', 'Markdown-markdown-body']) {
+    assert.ok(own.includes(expected), `文章详情页应该用到样式类 ${expected}`);
+  }
+  console.log('✓ 文章详情页：标题 / h2 / h3 / 代码块 + 样式类名');
 }
 
 // 4) 关于页：邮箱展示 + 复制按钮可点（jsdom 没有 clipboard，走兜底分支也不该抛错）
 {
   const container = await render('/about');
   const content = textOf(container);
-  assert.match(content, /you@example\.com/, '关于页应该展示邮箱');
+  // 不写死具体邮箱：内容随时会换成你自己的
+  assert.match(content, /[\w.+-]+@[\w-]+\.[\w.]+/, '关于页应该展示邮箱');
   const copyButton = [...container.querySelectorAll('button')].find((button) =>
     button.textContent?.includes('复制邮箱'),
   );

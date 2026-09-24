@@ -1,0 +1,54 @@
+/** 关于页：几张带边框的 Card 竖排 */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ant-margin);
+  max-width: 760px;
+}
+
+.profile {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ant-margin-lg);
+}
+
+.profile-name {
+  margin: 0;
+}
+
+.profile-subtitle {
+  display: block;
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+}
+
+.paragraph {
+  margin-bottom: var(--ant-margin-sm);
+}
+
+.tags,
+.email,
+.socials {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+}
+
+.email {
+  gap: var(--ant-margin-sm);
+}
+
+.socials {
+  gap: var(--ant-margin-sm);
+}
+
+.hint {
+  font-size: var(--ant-font-size-sm);
+}

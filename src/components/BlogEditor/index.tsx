@@ -2,8 +2,9 @@
 
 import { App, Form, Input, Modal, Select, Switch } from 'antd';
 import { useEffect, useMemo } from 'react';
-import { usePostStore } from '../store/postStore';
-import type { Post, PostDraft } from '../types';
+import { usePostStore } from '../../store/postStore';
+import type { Post, PostDraft } from '../../types';
+import styles from './index.module.scss';
 
 interface BlogEditorProps {
   open: boolean;
@@ -53,7 +54,7 @@ export function BlogEditor({ open, post, onClose }: BlogEditorProps) {
       width={760}
       destroyOnHidden
       mask={{ closable: false }}
-      styles={{ body: { paddingTop: 8 } }}
+      classNames={{ body: styles['body'] }}
     >
       <Form form={form} layout="vertical" requiredMark={false} preserve={false}>
         <Form.Item
@@ -70,14 +71,15 @@ export function BlogEditor({ open, post, onClose }: BlogEditorProps) {
           extra="列表页展示这一句，正文第一段不会自动当摘要"
           rules={[{ max: 120, message: '摘要别超过 120 字' }]}
         >
-          <Input.TextArea placeholder="一句话说清这篇讲了什么" autoSize={{ minRows: 2, maxRows: 3 }} maxLength={120} showCount />
+          <Input.TextArea
+            placeholder="一句话说清这篇讲了什么"
+            autoSize={{ minRows: 2, maxRows: 3 }}
+            maxLength={120}
+            showCount
+          />
         </Form.Item>
 
-        <Form.Item
-          name="tags"
-          label="标签"
-          extra="回车新增，颜色表在 src/constants/site.ts"
-        >
+        <Form.Item name="tags" label="标签" extra="回车新增，颜色表在 src/constants/site.ts">
           <Select
             mode="tags"
             placeholder="例如：React、TypeScript"
@@ -94,18 +96,18 @@ export function BlogEditor({ open, post, onClose }: BlogEditorProps) {
           rules={[{ required: true, message: '正文不能为空' }]}
         >
           <Input.TextArea
+            className={styles['content-input']}
             placeholder={'## 小标题\n\n正文……\n\n```ts\nconst a = 1;\n```'}
             autoSize={{ minRows: 12, maxRows: 22 }}
-            style={{ fontFamily: "'SFMono-Regular', Consolas, Menlo, monospace", fontSize: 13.5 }}
           />
         </Form.Item>
 
         <Form.Item
+          className={styles['row']}
           name="draft"
           label="存为草稿"
           valuePropName="checked"
           extra="草稿只有打开「显示草稿」时才出现在博客页"
-          style={{ marginBottom: 0 }}
         >
           <Switch />
         </Form.Item>

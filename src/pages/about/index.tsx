@@ -1,9 +1,10 @@
 import { CopyOutlined, MailOutlined, UserOutlined } from '@ant-design/icons';
-import { App as AntdApp, Avatar, Button, Card, Flex, Space, Tag, Typography } from 'antd';
+import { App as AntdApp, Avatar, Button, Card, Space, Tag, Typography } from 'antd';
 import { useState } from 'react';
 import { profile } from '../../content/profile';
 import { copyText } from '../../utils/clipboard';
 import { initialOf } from '../../utils/format';
+import styles from './index.module.scss';
 
 /** 关于页：邮箱一键复制（PRD）。排版走 antd 组件，卡片自带边框 */
 export default function About() {
@@ -22,27 +23,31 @@ export default function About() {
   };
 
   return (
-    <Flex vertical gap={16} style={{ maxWidth: 760 }}>
+    <div className={styles['page']}>
       <Card variant="outlined">
-        <Flex gap={20} align="center" wrap>
+        <div className={styles['profile']}>
           <Avatar size={72} src={profile.avatar || undefined}>
             {initialOf(profile.name)}
           </Avatar>
           <div>
-            <Typography.Title level={3} style={{ margin: 0 }}>
+            <Typography.Title className={styles['profile-name']} level={3}>
               {profile.name}
             </Typography.Title>
-            <Typography.Text type="secondary">
+            <Typography.Text className={styles['profile-subtitle']} type="secondary">
               {profile.title}
               {profile.location ? ` · ${profile.location}` : ''}
             </Typography.Text>
           </div>
-        </Flex>
+        </div>
       </Card>
 
       <Card variant="outlined" title={<Typography.Text strong>关于我</Typography.Text>}>
         {profile.aboutParagraphs.map((paragraph) => (
-          <Typography.Paragraph key={paragraph} type="secondary" style={{ marginBottom: 12 }}>
+          <Typography.Paragraph
+            key={paragraph}
+            className={styles['paragraph']}
+            type="secondary"
+          >
             {paragraph}
           </Typography.Paragraph>
         ))}
@@ -52,56 +57,57 @@ export default function About() {
         <Card
           variant="outlined"
           title={
-            <Space size={8}>
+            <span className={styles['section-title']}>
               <UserOutlined />
               <Typography.Text strong>关注方向</Typography.Text>
-            </Space>
+            </span>
           }
         >
-          <Space size={[0, 8]} wrap>
+          <div className={styles['tags']}>
             {profile.focus.map((item) => (
               <Tag key={item} color="blue">
                 {item}
               </Tag>
             ))}
-          </Space>
+          </div>
         </Card>
       ) : null}
 
       <Card
         variant="outlined"
         title={
-          <Space size={8}>
+          <span className={styles['section-title']}>
             <MailOutlined />
             <Typography.Text strong>邮箱</Typography.Text>
-          </Space>
+          </span>
         }
       >
-        <Space size={12} wrap>
-          <Typography.Text code copyable={false}>
-            {profile.email}
-          </Typography.Text>
+        <div className={styles['email']}>
+          <Typography.Text code>{profile.email}</Typography.Text>
           <Button type="primary" icon={<CopyOutlined />} onClick={handleCopy}>
             {copied ? '已复制' : '复制邮箱'}
           </Button>
-        </Space>
+        </div>
       </Card>
 
       {profile.socials.length > 0 ? (
-        <Card variant="outlined" title={<Typography.Text strong>在这些地方也能找到我</Typography.Text>}>
-          <Space size={12} wrap>
+        <Card
+          variant="outlined"
+          title={<Typography.Text strong>在这些地方也能找到我</Typography.Text>}
+        >
+          <div className={styles['socials']}>
             {profile.socials.map((social) => (
               <Button key={social.label} href={social.url} target="_blank" rel="noreferrer noopener">
                 {social.label}
               </Button>
             ))}
-          </Space>
+          </div>
         </Card>
       ) : null}
 
-      <Typography.Text type="secondary" style={{ fontSize: 13 }}>
+      <Typography.Text className={styles['hint']} type="secondary">
         这一页的文字来自 src/content/profile.ts，改完刷新即可生效
       </Typography.Text>
-    </Flex>
+    </div>
   );
 }

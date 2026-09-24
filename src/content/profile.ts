@@ -35,20 +35,20 @@ export interface Profile {
 }
 
 export const profile: Profile = {
-  name: '你的名字',
+  name: '姜漫漫',
   title: '前端工程师',
-  bio: '这里写一两句自我介绍：你做什么、擅长什么、最近在琢磨什么。改 src/content/profile.ts 就能换掉这段文字。',
+  bio: '简介：毕业于浙江海洋大学在杭州工作6年的开发者\n爱好：阅读、写作、旅行',
   aboutParagraphs: [
-    '这一段可以写你的经历：做过什么方向的项目、待过什么团队、对哪类问题最有兴趣。',
-    '这一段可以写你的工作方式或者技术偏好，比如「喜欢把复杂交互拆成可复用的小组件」「写代码前先写清楚边界」。',
-    '这一段可以写工作之外的事：在学什么、在读什么书、怎么联系你。',
+    '在dataphin蚂蚁数据中台做前端开发，主要负责数据中台的开发与维护。',
+    '技术栈是: React + TypeScript + Ant Design + Webpack，熟悉前端工程化、性能优化、前端架构等方向。',
+    '喜欢阅读技术书籍和文章，关注前端技术的发展趋势，热衷于分享自己的经验和知识。',
   ],
-  avatar: '',
-  email: 'you@example.com',
-  location: '中国 · 某城市',
+  avatar: '/imgs/avatar.jpg',
+  email: '2226534058@qq.com',
+  location: '中国 · 杭州',
   focus: ['React', 'TypeScript', '前端工程化', '性能优化'],
   socials: [
-    { label: 'GitHub', url: 'https://github.com/' },
+    { label: 'GitHub', url: 'https://github.com/jiangmanman1997' },
     { label: '掘金', url: 'https://juejin.cn/' },
   ],
 };

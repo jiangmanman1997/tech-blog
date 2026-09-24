@@ -1,0 +1,5 @@
+/** 标签列表：只补标签之间的间距，颜色由 antd 的 color 决定 */
+
+.tag {
+  margin-inline-end: var(--ant-margin-xs);
+}

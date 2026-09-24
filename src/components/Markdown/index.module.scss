@@ -1,0 +1,94 @@
+/**
+ * Markdown 正文排版。
+ *
+ * 正文 HTML 由 src/utils/markdown.ts 生成，不在 antd 组件体系里，所以版式得自己写。
+ * 颜色统一引用 antd 暴露的 CSS 变量（--ant-color-* / --ant-margin*），
+ * 深色模式和换主色都不用改这里。子元素用 :global() 是因为它们不经过 CSS Modules。
+ */
+
+.markdown-body {
+  font-size: var(--ant-font-size);
+  line-height: 1.85;
+  word-break: break-word;
+
+  :global(p) {
+    margin: 0 0 var(--ant-margin);
+  }
+
+  :global(h2),
+  :global(h3),
+  :global(h4) {
+    margin: calc(var(--ant-margin) * 1.75) 0 var(--ant-margin-sm);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  :global(h2) {
+    font-size: calc(var(--ant-font-size) * 1.35);
+  }
+
+  :global(h3) {
+    font-size: calc(var(--ant-font-size) * 1.15);
+  }
+
+  :global(h4) {
+    font-size: var(--ant-font-size);
+  }
+
+  :global(ul),
+  :global(ol) {
+    margin: 0 0 var(--ant-margin);
+    padding-inline-start: calc(var(--ant-margin) * 1.5);
+  }
+
+  :global(li) {
+    margin: var(--ant-margin-xs) 0;
+  }
+
+  :global(blockquote) {
+    margin: 0 0 var(--ant-margin);
+    padding: var(--ant-margin-xs) var(--ant-margin);
+    border-inline-start: 3px solid var(--ant-color-primary-border);
+    background: var(--ant-color-fill-quaternary);
+    border-radius: var(--ant-border-radius);
+    color: var(--ant-color-text-secondary);
+
+    :global(p) {
+      margin: var(--ant-margin-xs) 0;
+    }
+  }
+
+  :global(code) {
+    padding: 0.1em 0.4em;
+    border-radius: var(--ant-border-radius-sm);
+    background: var(--ant-color-fill-tertiary);
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.9em;
+  }
+
+  :global(pre) {
+    margin: 0 0 var(--ant-margin);
+    padding: var(--ant-margin);
+    overflow-x: auto;
+    border: 1px solid var(--ant-color-border-secondary);
+    border-radius: var(--ant-border-radius-lg);
+    background: var(--ant-color-fill-quaternary);
+
+    :global(code) {
+      padding: 0;
+      background: none;
+      font-size: 0.9em;
+      line-height: 1.7;
+    }
+  }
+
+  :global(hr) {
+    margin: calc(var(--ant-margin) * 1.5) 0;
+    border: none;
+    border-top: 1px solid var(--ant-color-border-secondary);
+  }
+
+  > :global(*:last-child) {
+    margin-bottom: 0;
+  }
+}

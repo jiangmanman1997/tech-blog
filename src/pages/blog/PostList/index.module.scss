@@ -1,0 +1,50 @@
+/** 博客列表页 */
+
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ant-margin);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--ant-margin);
+}
+
+.title-group {
+  display: flex;
+  align-items: baseline;
+  gap: var(--ant-margin-xs);
+  flex-wrap: wrap;
+}
+
+.title {
+  margin: 0;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ant-margin);
+}
+
+.draft-switch {
+  display: flex;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--ant-margin);
+
+  // 一行放不下两张卡片时保持单列，比硬塞两列好读
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}

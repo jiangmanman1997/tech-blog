@@ -1,0 +1,21 @@
+/**
+ * 全局样式：只放 reset 和 antd 组件覆盖不到的地方。
+ *
+ * 设计约定：颜色、圆角、按钮、卡片、头像一律交给 antd 自己的样式；
+ * 组件级样式写在各自的 *.module.scss 里，不往这里堆。
+ * 需要换主色时改 constants/site.ts 的 BRAND_COLOR（ConfigProvider 会算出整套主题色）。
+ */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  min-height: 100vh;
+}

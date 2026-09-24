@@ -1,14 +1,33 @@
 /**
- * 冒烟测试用：把整个应用（含 antd/路由/store）打成 CommonJS，在 jsdom 里挂载一遍，
- * 目的是抓「类型检查过、单元测试过，但一渲染就报错」的问题（组件 API 用错、store 初始化炸掉等）。
+ * 冒烟测试用：把整个应用（含 antd/路由/store）打成一份能在 jsdom 里跑的包，
+ * 目的是抓「类型检查过、单元测试过，但一渲染就报错」的问题（组件 API 用错、store 初始化炸掉、
+ * 样式类名取不到等）。
  *
- * 只用 ts-loader 转译，不做分包、不压缩，跑得快也容易定位。
+ * 与正式构建的差别只在「样式」：
+ *   - 不加载真实 CSS（jsdom 里没意义），但会跑 css-loader 拿到「原类名 -> 生成的类名」映射，
+ *     由 scripts/css-module-stub-loader.cjs 导出给组件，所以 className 依然有值、能断言。
+ *   - 不压缩、不分包，跑得快也容易定位。
+ *
+ * sass-loader 的设计变量注入直接从正式配置里取，避免两边配置漂移。
  */
 
 import path from 'node:path';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import realConfig from '../webpack.config.js';
 
 const outDir = path.resolve(import.meta.dirname, '..', '.smoke-build');
+
+/** 从正式配置里挑出 sass-loader 的 options（additionalData 等） */
+const findSassLoaderOptions = () => {
+  const config = realConfig({}, { mode: 'development' });
+  for (const rule of config.module.rules) {
+    if (!(rule.test instanceof RegExp) || !rule.test.test('index.module.scss')) continue;
+    for (const entry of rule.use) {
+      if (typeof entry === 'object' && entry.loader === 'sass-loader') return entry.options;
+    }
+  }
+  throw new Error('正式配置里找不到 sass-loader 的 options');
+};
 
 export default {
   mode: 'development',
@@ -30,8 +49,15 @@ export default {
   module: {
     rules: [
       { test: /\.tsx?$/, loader: 'ts-loader', options: { transpileOnly: true }, exclude: /node_modules/ },
-      // 冒烟测试不关心样式，把 CSS 丢掉，省得在 node 里处理 style-loader
-      { test: /\.css$/, use: ['null-loader'] },
+      {
+        test: /\.module\.scss$/,
+        use: [
+          { loader: path.resolve(import.meta.dirname, 'css-module-stub-loader.cjs') },
+          { loader: 'sass-loader', options: findSassLoaderOptions() },
+        ],
+      },
+      // 全局样式（不带 .module）直接丢掉
+      { test: /\.s?css$/, exclude: /\.module\.scss$/, use: ['null-loader'] },
     ],
   },
   plugins: [new HtmlWebpackPlugin({ template: 'public/index.html' })],

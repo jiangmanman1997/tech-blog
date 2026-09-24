@@ -1,0 +1,36 @@
+/** 文章卡片：一个 item 一张带边框的 Card，只补栅格等高和间距 */
+
+.card {
+  height: 100%;
+}
+
+.title {
+  margin: 0;
+}
+
+.meta {
+  display: flex;
+  margin-bottom: calc(var(--ant-margin) * 0.5);
+}
+
+.summary {
+  margin: 0 0 var(--ant-margin) 0;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--ant-margin-xs);
+  margin-top: var(--ant-margin);
+}
+
+.link-button {
+  padding-inline: 0;
+}

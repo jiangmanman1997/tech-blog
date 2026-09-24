@@ -3,19 +3,9 @@
  * 个人资料请改 src/content/profile.ts，文章请改 src/content/posts.ts。
  */
 
-/**
- * 主色：ConfigProvider 拿它生成整套 antd 主题色（按钮、链接、选中态、焦点框都跟着变），
- * 自绘的 Markdown 正文用的是 antd 暴露的 CSS 变量，所以换这一个值就够了。
- */
-export const BRAND_COLOR = '#4f46e5';
-
 export const SITE = {
   /** 首页最近文章条数（PRD：最近 5 篇） */
   recentPostCount: 5,
-  /** 内容区最大宽度 */
-  contentWidth: 1080,
-  /** 内容区距顶部的距离 */
-  contentPadding: 32,
   /** 标签颜色，未列出的标签用 fallback */
   tagColors: {
     前端: 'geekblue',

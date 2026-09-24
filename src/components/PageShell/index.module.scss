@@ -1,0 +1,16 @@
+/** 页面外壳：撑满视口 + 内容区居中限宽 */
+
+.layout {
+  min-height: 100vh;
+}
+
+.content {
+  width: 100%;
+  max-width: $content-width;
+  margin: 0 auto;
+  padding: calc(var(--ant-margin-lg) * 1.5) $content-gutter calc(var(--ant-margin-lg) * 3);
+}
+
+.footer {
+  text-align: center;
+}
