@@ -1,6 +1,8 @@
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import ImageMinimizerPlugin from 'image-minimizer-webpack-plugin';
 import { getLocalIdent } from './scripts/css-module-names.mjs';
 
 // node_modules/lodash-es/debounce.js -> lodash-es；如果以后引了第三方 UI 库，也要改这里
@@ -13,8 +15,9 @@ export default (_env, argv) => {
     entry: './src/index.tsx',
     output: {
       path: path.resolve(import.meta.dirname, 'dist'),
-      filename: isProd ? '[name].[contenthash:8].js' : '[name].js',
-      chunkFilename: isProd ? '[name].[contenthash:8].chunk.js' : '[name].chunk.js',
+      filename: isProd ? 'js/[name].[contenthash:8].js' : 'js/[name].js',
+      chunkFilename: isProd ? 'js/[name].[contenthash:8].chunk.js' : 'js/[name].chunk.js',
+      assetModuleFilename: 'assets/[name].[contenthash:8][ext][query]',
       publicPath: '/',
       clean: true,
     },
@@ -71,7 +74,37 @@ export default (_env, argv) => {
         },
       ],
     },
-    plugins: [new HtmlWebpackPlugin({ template: 'public/index.html' })],
+    plugins: [
+      new HtmlWebpackPlugin({ template: 'public/index.html' }),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: path.resolve(import.meta.dirname, 'public'),
+            // 直接复制到 dist 根目录，保持 public 内的目录结构
+            // 这样代码里写 /iconfont/iconfont.js、/imgs/cover.jpg 就能对上
+            to: path.resolve(import.meta.dirname, 'dist'),
+            globOptions: { ignore: ['**/index.html'] },
+            noErrorOnMissing: true,
+          },
+        ],
+      }),
+      ...(isProd
+        ? [
+            new ImageMinimizerPlugin({
+              minimizer: {
+                implementation: ImageMinimizerPlugin.sharpMinify,
+                options: {
+                  encodeOptions: {
+                    jpeg: { quality: 82 },
+                    png: { quality: 82 },
+                    webp: { quality: 82 },
+                  },
+                },
+              },
+            }),
+          ]
+        : []),
+    ],
     optimization: {
       runtimeChunk: 'single',
       splitChunks: {
@@ -82,7 +115,7 @@ export default (_env, argv) => {
           // 1) 框架核心：首屏就要、随业务几乎不变 -> 一个长期可缓存的 chunk
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom|scheduler|react-router|@remix-run)[\\/]/,
-            name: 'react-vendor',
+            name: 'vendor/react-vendor',
             priority: 40,
             enforce: true,
           },
@@ -93,11 +126,16 @@ export default (_env, argv) => {
             chunks: 'async',
             priority: 20,
             reuseExistingChunk: true,
-            name: (module) => `npm.${packageOf(module.context)}`,
+            name: (module) => `vendor/npm.${packageOf(module.context)}`,
           },
-          // 3) 首屏里非 react 的第三方交给 webpack 自带的 defaultVendors。
-          //    千万别写 test: /node_modules/ + 固定 name: 'vendors'：
-          //    它会把所有路由用到的库并成一个 blob，A 页面会连带下载 B 页面的库。
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            chunks: 'initial',
+            name: 'vendor/vendors',
+            priority: -10,
+            enforce: true,
+            reuseExistingChunk: true,
+          },
         },
       },
       // usedExports 暂时关掉：开着它时，生产构建会把 CSS Modules 的导出
