@@ -49,8 +49,8 @@ export const profile: Profile = {
   focus: [
     { text: 'React', icon: 'icon-React' },
     { text: 'TypeScript', icon: 'icon-Typescript' },
-    { text: '前端工程化', icon: 'icon-frontend' },
-    { text: '性能优化', icon: 'icon-performance' },
+    { text: '前端工程化', icon: 'icon-icon-test' },
+    { text: '性能优化', icon: 'icon-xingneng' },
   ],
   socials: [
     { label: 'GitHub', url: 'https://github.com/jiangmanman1997' },

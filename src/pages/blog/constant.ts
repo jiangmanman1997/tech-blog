@@ -35,13 +35,13 @@ export enum POST_TAG{
 
 export const PostTagLabelMap: Record<string, { text: string,icon?:string }> = {
     [POST_TAG.Essay]: {text:'随笔',icon:'icon-icon-suibi'},
-    [POST_TAG.Frontend]: {text:'前端',icon:''},
+    [POST_TAG.Frontend]: {text:'前端',icon:'icon-icon-test'},
     [POST_TAG.React]: {text:'React',icon:'icon-React'},
     [POST_TAG.TypeScript]: {text:'TypeScript',icon:'icon-Typescript'},
     [POST_TAG.Webpack]: {text:'Webpack',icon:'icon-webpack'},
     [POST_TAG.CSS]: {text:'CSS',icon:''},
-    [POST_TAG.Performance]: {text:'性能优化',icon:''},
-    [POST_TAG.Engineering]: {text:'工程化',icon:''},
+    [POST_TAG.Performance]: {text:'性能优化',icon:'icon-xingneng'},
+    [POST_TAG.Engineering]: {text:'工程化',icon:'icon-gongcheng'},
     [POST_TAG.AI]: {text:'AI',icon:'icon-agent'},
     [POST_TAG.Agent]: {text:'Agent',icon:'icon-agent'},
     [POST_TAG.Nodejs]: {text:'node.js',icon:'icon-nodejs'},

@@ -3,6 +3,7 @@ import ReactMarkdown, { type Components } from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import styles from './index.module.scss';
+import Icon from '../Icon';
 
 // 从 hast 节点里提取原始代码文本
 // 结构：pre > code > text（rehype-highlight 处理后 code 下是 span 数组）
@@ -54,9 +55,9 @@ const components: Components = {
       <div className={styles['code-block-wrapper']}>
         <a  className={styles['copy-button']} onClick={handleCopy}>
            {copied ? (
-            <i className="iconfont icon-hei" style={{ fontSize: 16 }} aria-hidden="true" />
+            <Icon name="icon-hei" colorful />
           ) : (
-            <i className="iconfont icon-fuzhi" style={{ fontSize: 16 }} aria-hidden="true" />
+            <Icon name="icon-fuzhi" colorful/>
           )}
           复制
         </a>

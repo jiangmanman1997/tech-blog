@@ -21,8 +21,8 @@ export default function PostDetail() {
   if (!post) {
     return (
       <Empty description="文章不存在，可能已经被删除">
-        <Button type="primary" onClick={() => navigate(ROUTES.blog)}>
-          回博客列表
+        <Button type="primary" onClick={() => navigate(-1)}>
+          返回上一页
         </Button>
       </Empty>
     );
@@ -34,7 +34,7 @@ export default function PostDetail() {
         className={styles['back']}
         type="text"
         icon={<ArrowLeftOutlined />}
-        onClick={() => navigate(ROUTES.blog)}
+        onClick={() => navigate(-1)}
       >
         返回列表
       </Button>

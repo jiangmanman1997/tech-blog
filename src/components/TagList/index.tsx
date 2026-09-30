@@ -1,4 +1,5 @@
 import { SITE } from '../../constants/site';
+import Icon from '../Icon';
 import styles from './index.module.scss';
 
 const tagIconColors: Record<string, string> = {
@@ -30,11 +31,12 @@ export function TagList({
     <>
       {tags.map((tag) => (
         <span className={styles['tag']} key={tag.value ?? tag.text}>
-          {tag.icon ? (
-            <i
-              className={`iconfont ${tag.icon}`}
-              style={{ color: tagIconColors[SITE.tagColors[tag.text] ?? SITE.tagFallbackColor] ?? 'currentColor' }}
-            />
+          {tag?.icon ? (
+            <Icon
+              name={tag.icon}
+              colorful
+              size={24}
+              />
           ) : null}
           <span className={styles['text']}>{tag.text}</span>
         </span>

@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1382572",
+      "name": "性能",
+      "font_class": "xingneng",
+      "unicode": "e654",
+      "unicode_decimal": 58964
+    },
+    {
+      "icon_id": "7587940",
+      "name": "工程",
+      "font_class": "gongcheng",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "27909727",
+      "name": "icon-test",
+      "font_class": "icon-test",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
       "icon_id": "44504269",
       "name": "掘金",
       "font_class": "juejin",
@@ -25,13 +46,6 @@
       "font_class": "javascript",
       "unicode": "e6f7",
       "unicode_decimal": 59127
-    },
-    {
-      "icon_id": "2019090",
-      "name": "面试邀请",
-      "font_class": "mianshiyaoqing",
-      "unicode": "e7be",
-      "unicode_decimal": 59326
     },
     {
       "icon_id": "3994659",

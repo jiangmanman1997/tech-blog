@@ -1,5 +1,5 @@
 // 此文件由 iconfont-sync 自动生成，请勿手动修改。
-// 项目：self-web    图标数：19
+// 项目：self-web    图标数：21
 
 export type IconType =
   | 'React'
@@ -12,12 +12,14 @@ export type IconType =
   | 'diannaoyulan'
   | 'filter-records'
   | 'fuzhi'
+  | 'gongcheng'
   | 'hei'
   | 'houduankaifa'
   | 'icon-suibi'
+  | 'icon-test'
   | 'javascript'
   | 'juejin'
-  | 'mianshiyaoqing'
   | 'nodejs'
   | 'qq'
   | 'webpack'
+  | 'xingneng'
