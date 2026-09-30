@@ -65,8 +65,8 @@ export default function About() {
         >
           <div className={styles['tags']}>
             {profile.focus.map((item) => (
-              <Tag key={item} color="blue">
-                {item}
+              <Tag key={item.text} color="blue">
+                {item.text}
               </Tag>
             ))}
           </div>
@@ -104,10 +104,6 @@ export default function About() {
           </div>
         </Card>
       ) : null}
-
-      <Typography.Text className={styles['hint']} type="secondary">
-        这一页的文字来自 src/content/profile.ts，改完刷新即可生效
-      </Typography.Text>
     </div>
   );
 }

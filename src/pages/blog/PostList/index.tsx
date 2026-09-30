@@ -78,7 +78,7 @@ export default function PostList() {
       ) : (
         <div className={styles['grid']}>
           {visible.map((post) => (
-            <PostCard key={post.id} post={post} onEdit={openEdit} onDelete={handleDelete} />
+            <PostCard key={post.id} post={post} variant="row" isAuth={isAuth} onEdit={openEdit} onDelete={handleDelete} />
           ))}
         </div>
       )}

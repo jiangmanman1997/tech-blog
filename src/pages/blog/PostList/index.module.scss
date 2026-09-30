@@ -41,10 +41,5 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--ant-margin);
-
-  // 一行放不下两张卡片时保持单列，比硬塞两列好读
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-  }
+  gap: 0;
 }

@@ -4,8 +4,8 @@ import { Suspense, lazy } from 'react';
 import { Route, Routes } from 'react-router';
 import { PageShell } from './components/PageShell';
 import { ROUTES } from './constants/site';
-import { useScrollToTop } from './hooks/useScrollToTop';
-import { useTheme } from './hooks/useTheme';
+import { useScrollToTop } from './store/useScrollToTop';
+import { useTheme } from './store/useTheme';
 import styles from './App.module.scss';
 
 // 每个 import() 就是一个 webpack chunk：页面代码只在首次访问时下载（PRD/DESIGN 的代码分割）
@@ -34,6 +34,7 @@ export default function App() {
           // 主色用 antd 默认值；想换就加 colorPrimary（例如 '#4f46e5'）
           borderRadius: 8,
           fontSize: 14,
+          colorBgLayout: theme === 'dark' ? '#000' : '#fff',
         },
       }}
     >

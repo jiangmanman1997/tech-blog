@@ -1,0 +1,9 @@
+{
+  "projectId": "5239322",
+  "output": "public/iconfont",
+  "typeName": "IconType",
+  "exclude": [
+    "demo_index.html",
+    "demo.css"
+  ]
+}

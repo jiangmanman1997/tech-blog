@@ -34,3 +34,74 @@
 .link-button {
   padding-inline: 0;
 }
+
+.row {
+  padding: 22px 2px 20px;
+  border-bottom: 2px solid var(--ant-color-border-secondary);
+}
+
+.row-container {
+  display: flex;
+  gap: 24px;
+
+  .row-left-text {
+    width: calc(100% - 124px);
+  }
+}
+
+.row-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.row-title {
+  display: inline-block;
+  color: var(--ant-color-text);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.45;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+
+  &:hover {
+    color: #746f6f;
+    text-decoration: underline;
+  }
+}
+
+.row-date {
+  display: block;
+  margin-top: 4px;
+  color: var(--ant-color-text-tertiary);
+  font-size: 10px;
+  color: #666;
+}
+
+.row-summary {
+  margin: 10px 0 12px;
+  color: var(--ant-color-text-secondary);
+  font-size: 13px;
+  line-height: 1.7;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  /* 限制 2 行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.row-cover {
+  border-radius: 5px;
+  width: 100px;
+  background-size: 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.row-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}

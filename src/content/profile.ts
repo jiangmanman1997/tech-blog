@@ -29,7 +29,7 @@ export interface Profile {
   /** 所在城市，不想写就留空 */
   location: string;
   /** 正在做的事 / 关注方向，首页和关于页都会展示，不想写就留空数组 */
-  focus: string[];
+  focus: { text: string; icon?: string }[];
   /** 社交链接，不想写就留空数组 */
   socials: SocialLink[];
 }
@@ -46,7 +46,12 @@ export const profile: Profile = {
   avatar: '/imgs/avatar.jpg',
   email: '2226534058@qq.com',
   location: '中国 · 杭州',
-  focus: ['React', 'TypeScript', '前端工程化', '性能优化'],
+  focus: [
+    { text: 'React', icon: 'icon-React' },
+    { text: 'TypeScript', icon: 'icon-Typescript' },
+    { text: '前端工程化', icon: 'icon-frontend' },
+    { text: '性能优化', icon: 'icon-performance' },
+  ],
   socials: [
     { label: 'GitHub', url: 'https://github.com/jiangmanman1997' },
     { label: '掘金', url: 'https://juejin.cn/' },

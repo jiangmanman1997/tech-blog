@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
-import { excerpt, formatDate, initialOf, readingMinutes, sortByDateDesc } from './format.ts';
+import { excerpt, formatDate, initialOf, sortByDateDesc } from './format.ts';
 
 test('formatDate 规范化日期，无法解析时原样返回', () => {
   assert.equal(formatDate('2024-05-01'), '2024-05-01');
@@ -27,11 +27,6 @@ test('sortByDateDesc 不改动原数组', () => {
   ];
   sortByDateDesc(input);
   assert.equal(input[0].title, 'A');
-});
-
-test('readingMinutes 最少 1 分钟', () => {
-  assert.equal(readingMinutes('短'), 1);
-  assert.ok(readingMinutes('中'.repeat(1200)) >= 3);
 });
 
 test('excerpt 去掉 Markdown 标记并截断', () => {

@@ -7,8 +7,9 @@ import Markdown from '../../../components/Markdown';
 import TagList from '../../../components/TagList';
 import { ROUTES } from '../../../constants/site';
 import { usePostStore } from '../../../store/postStore';
-import { formatDate, readingMinutes } from '../../../utils/format';
+import { formatDate } from '../../../utils/format';
 import styles from './index.module.scss';
+import { PostTagLabelMap } from '../constant';
 
 /** 文章详情：正文用轻量 Markdown 渲染 */
 export default function PostDetail() {
@@ -44,7 +45,6 @@ export default function PostDetail() {
 
       <div className={styles['meta']}>
         <Typography.Text type="secondary">{formatDate(post.createdAt)}</Typography.Text>
-        <Typography.Text type="secondary">约 {readingMinutes(post.content)} 分钟</Typography.Text>
         {post.draft ? (
           <Typography.Text type="warning">
             <LockOutlined /> 草稿
@@ -54,7 +54,7 @@ export default function PostDetail() {
 
       <div className={styles['head']}>
         <div className={styles['tags']}>
-          <TagList tags={post.tags} />
+          <TagList tags={post.tags?.map((tag) => PostTagLabelMap?.[tag])} />
         </div>
         <Button type="text" size="small" icon={<EditOutlined />} onClick={() => setEditorOpen(true)}>
           编辑

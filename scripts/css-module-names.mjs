@@ -9,7 +9,7 @@
  *   src/pages/blog/PostList/index.module.scss   -> PostList-page
  *   src/pages/home/index.module.scss            -> home-hero
  *
- * 个别不放在组件文件夹里的样式（例如 src/styles）返回 undefined，交回 css-loader 默认命名。
+ * 个别不放在组件文件夹里的样式（例如 src/assets undefined，交回 css-loader 默认命名。
  */
 
 import path from 'node:path';

@@ -18,7 +18,7 @@ npm run dev        # http://localhost:3000
 | 名字、头衔、自我介绍、头像、邮箱、城市、关注方向、社交链接 | `src/content/profile.ts` |
 | 初始文章（标题、摘要、正文、标签、日期） | `src/content/posts.ts` |
 | 站点常量：主色、首页最近文章条数、标签颜色、导航项、localStorage key | `src/constants/site.ts` |
-| 颜色、间距、字号等设计 token | 主色在 `src/app/index.tsx` 的 ConfigProvider；公共尺寸在 `src/styles/tokens.scss`；颜色一律用 antd 的 CSS 变量 |
+| 颜色、间距、字号等设计 token | 主色在 `src/app/index.tsx` 的 ConfigProvider；公共尺寸在 `src/assets/tokens.scss`；颜色一律用 antd 的 CSS 变量 |
 | 页面标题、站点描述 | `public/index.html` |
 | 头像图片文件 | 放到 `public/` 下，然后在 profile.ts 里写 `avatar: '/avatar.jpg'` |
 
@@ -97,7 +97,7 @@ src
 ## 实现要点
 
 - **设计语言**：界面就是 antd 本身的样子——按钮、卡片、头像、标签、弹窗、下拉都不覆盖 antd 的配色和阴影，只保留图标本身带颜色；文章 item 是 `Card variant="outlined"`（带边框）。主色用 antd 默认值，想换就在 `src/App.tsx` 的 ConfigProvider 里加 `colorPrimary`。
-- **样式**：布局、间距、栅格写在 `*.module.scss`（CSS Modules + SCSS，配 `sass-loader` / `css-loader` / `style-loader`）；颜色、圆角、间距刻度一律引用 antd 暴露的 CSS 变量（`--ant-color-*` / `--ant-margin*`），所以深色模式和换主色都不用改样式文件。公共尺寸变量在 `src/styles/tokens.scss`，每个 `*.module.scss` 会自动 `@use` 进来，不用手写。
+- **样式**：布局、间距、栅格写在 `*.module.scss`（CSS Modules + SCSS，配 `sass-loader` / `css-loader` / `style-loader`）；颜色、圆角、间距刻度一律引用 antd 暴露的 CSS 变量（`--ant-color-*` / `--ant-margin*`），所以深色模式和换主色都不用改样式文件。公共尺寸变量在 `src/assets/tokens.scss`，每个 `*.module.scss` 会自动 `@use` 进来，不用手写。
 - **唯一没有组件包裹的样式**是 Markdown 正文（渲染出的 HTML 不在 antd 组件体系里），放在 `src/components/Markdown/index.module.scss`，子元素用 `:global()` 选择。
 - **代码分割**：每个页面一个 `import()`，首次访问才下载对应 chunk；框架核心单独一个可长期缓存的 chunk，其余第三方按包拆（配置在 `webpack.config.js`，注释里写了为什么不能并成一个 vendors）。
 - **状态管理**：组件内部状态用 `useState`，跨页面共享（文章、主题）用 zustand，见 `src/store/`。

@@ -2,7 +2,7 @@ import { Layout } from 'antd';
 import type { ReactNode } from 'react';
 import React from 'react';
 import { profile } from '../../content/profile';
-import { NavBar } from '../NavBar';
+import { NavBar } from './NavBar';
 import styles from './index.module.scss';
 
 /**
@@ -17,8 +17,7 @@ export function PageShell({ children }: { children: ReactNode }) {
         <div className={styles['content']}>{children}</div>
       </Layout.Content>
       <Layout.Footer className={styles['footer']}>
-        © {new Date().getFullYear()} {profile.name} · React + TypeScript + Ant Design + Webpack
-      </Layout.Footer>
+        © </Layout.Footer>
     </Layout>
   );
 }

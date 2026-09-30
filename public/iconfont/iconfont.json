@@ -1,0 +1,142 @@
+{
+  "id": "5239322",
+  "name": "self-web",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "44504269",
+      "name": "掘金",
+      "font_class": "juejin",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "46690594",
+      "name": "QQ邮箱-copy",
+      "font_class": "qq",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "15188428",
+      "name": "javascript",
+      "font_class": "javascript",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "2019090",
+      "name": "面试邀请",
+      "font_class": "mianshiyaoqing",
+      "unicode": "e7be",
+      "unicode_decimal": 59326
+    },
+    {
+      "icon_id": "3994659",
+      "name": "nodejs",
+      "font_class": "nodejs",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "6496025",
+      "name": "Webpack",
+      "font_class": "webpack",
+      "unicode": "e79a",
+      "unicode_decimal": 59290
+    },
+    {
+      "icon_id": "6496026",
+      "name": "Vue",
+      "font_class": "Vue",
+      "unicode": "e79b",
+      "unicode_decimal": 59291
+    },
+    {
+      "icon_id": "8880266",
+      "name": "agent",
+      "font_class": "agent",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "9189112",
+      "name": "后端开发",
+      "font_class": "houduankaifa",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "40851438",
+      "name": "Typescript",
+      "font_class": "Typescript",
+      "unicode": "e6e5",
+      "unicode_decimal": 59109
+    },
+    {
+      "icon_id": "47600270",
+      "name": "ai-agent",
+      "font_class": "ai-agent",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "47811392",
+      "name": "icon-随笔",
+      "font_class": "icon-suibi",
+      "unicode": "e69e",
+      "unicode_decimal": 59038
+    },
+    {
+      "icon_id": "6496027",
+      "name": "React",
+      "font_class": "React",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "34452994",
+      "name": "filter-records",
+      "font_class": "filter-records",
+      "unicode": "e839",
+      "unicode_decimal": 59449
+    },
+    {
+      "icon_id": "48509449",
+      "name": "编辑",
+      "font_class": "bianji",
+      "unicode": "e65d",
+      "unicode_decimal": 58973
+    },
+    {
+      "icon_id": "48509454",
+      "name": "电脑预览",
+      "font_class": "diannaoyulan",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "48509455",
+      "name": "代码",
+      "font_class": "daima",
+      "unicode": "e65f",
+      "unicode_decimal": 58975
+    },
+    {
+      "icon_id": "48509457",
+      "name": "黑",
+      "font_class": "hei",
+      "unicode": "e660",
+      "unicode_decimal": 58976
+    },
+    {
+      "icon_id": "48509473",
+      "name": "复制",
+      "font_class": "fuzhi",
+      "unicode": "e661",
+      "unicode_decimal": 58977
+    }
+  ]
+}

@@ -3,11 +3,13 @@
 export interface Post {
   id: string;
   title: string;
-  /** 列表页展示的摘要，一句话 */
-  summary: string;
   /** 正文，Markdown */
   content: string;
+  /** 列表页展示的摘要，一句话 */
+  summary?: string;
   tags: string[];
+  /** 封面图片 */
+  coverImg?: string;
   /** ISO 日期，如 '2024-05-01'，用于排序和展示 */
   createdAt: string;
   /** true = 草稿，博客页默认不展示 */

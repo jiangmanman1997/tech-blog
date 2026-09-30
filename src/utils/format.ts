@@ -16,13 +16,6 @@ export const sortByDateDesc = <T extends { createdAt: string; title: string }>(i
     (a, b) => b.createdAt.localeCompare(a.createdAt) || a.title.localeCompare(b.title),
   );
 
-/** 中文按字数、英文按词数粗算阅读时长，最少 1 分钟 */
-export const readingMinutes = (content: string): number => {
-  const cjk = content.match(/[\u4e00-\u9fa5]/g)?.length ?? 0;
-  const words = content.replace(/[\u4e00-\u9fa5]/g, ' ').match(/[A-Za-z0-9]+/g)?.length ?? 0;
-  return Math.max(1, Math.round(cjk / 400 + words / 200));
-};
-
 /** 从正文里截一段纯文本摘要，用于用户没填 summary 时兜底 */
 export const excerpt = (content: string, max = 80): string => {
   const text = content

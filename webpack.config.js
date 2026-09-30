@@ -21,6 +21,7 @@ export default (_env, argv) => {
     resolve: { extensions: ['.tsx', '.ts', '.js'] },
     module: {
       rules: [
+        { test: /\.md$/, type: 'asset/source' },
         // transpileOnly: 类型检查交给 `npm run typecheck`，构建只做转译，快很多
         { test: /\.tsx?$/, loader: 'ts-loader', options: { transpileOnly: true }, exclude: /node_modules/ },
         // 样式：style-loader 把 CSS 注入 <style>，开发时有 HMR，生产也能用（天然跟着代码分割走）。
@@ -56,7 +57,7 @@ export default (_env, argv) => {
             {
               loader: 'sass-loader',
               options: {
-                additionalData: `@use "${pathToFileURL(path.resolve(import.meta.dirname, 'src/styles/tokens')).href}" as *;`,
+                additionalData: `@use "${pathToFileURL(path.resolve(import.meta.dirname, 'src/assets/tokens')).href}" as *;`,
               },
             },
           ],

@@ -149,22 +149,26 @@ const assertOwnClasses = (container, label) => {
   return ownClasses;
 };
 
-// 1) 首页：自我介绍 + 最近 5 篇文章
+// 1) 首页：个人横幅、最近 5 篇文章与技术日志
 {
   const container = await render('/');
   const content = textOf(container);
   assert.match(content, /前端工程师/, '首页应该渲染出头衔');
   assert.match(content, /最近文章/, '首页应该有「最近文章」区块');
   assert.match(content, /开始写第一篇博客/, '首页应该列出种子文章');
-  // 1 张自我介绍卡 + 5 张文章卡
-  assert.equal(postCards(container).length, 1 + 5, '首页最多展示 5 篇（PRD）');
-  assert.equal(container.querySelectorAll('.ant-card-bordered').length, 6, '每张卡片都应该有边框');
+  assert.match(content, /技术日志/, '首页应该有技术日志侧栏');
+  assert.equal(container.querySelectorAll('article').length, 5, '首页最多展示 5 篇（PRD）');
+  assert.equal(
+    container.querySelectorAll('[aria-label="文章发布日历"] > span').length,
+    126,
+    '技术日志应该渲染近 18 周的日期网格',
+  );
 
   const own = assertOwnClasses(container, '首页');
-  for (const expected of ['Home-page', 'Home-hero', 'PostCard-card', 'PageShell-layout']) {
+  for (const expected of ['Home-page', 'NavBar-masthead', 'Home-article-row', 'PageShell-layout']) {
     assert.ok(own.includes(expected), `首页应该用到样式类 ${expected}（当前：${own.join(', ')}）`);
   }
-  console.log('✓ 首页：自我介绍 + 最近 5 篇文章（都带边框，样式类名已生效）');
+  console.log('✓ 首页：个人横幅、最近 5 篇文章与技术日志');
 }
 
 // 2) 博客列表页：全部已发布文章 + 写文章入口

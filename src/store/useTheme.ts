@@ -1,7 +1,7 @@
 /** 把主题写到 <body data-theme>，让 global.css 的变量生效 */
 
 import { useEffect } from 'react';
-import { useUiStore, type ThemeMode } from '../store/uiStore';
+import { useUiStore, type ThemeMode } from './uiStore';
 
 export const useTheme = (): { theme: ThemeMode; toggleTheme: () => void } => {
   const theme = useUiStore((state) => state.theme);

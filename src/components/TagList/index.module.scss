@@ -2,4 +2,27 @@
 
 .tag {
   margin-inline-end: var(--ant-margin-xs);
+  background: #e8e8e8;
+  padding: 0px 6px 0px 0px;
+  border-radius: .28571429rem;
+      height: 20px;
+    box-sizing: content-box;
+
+  .text {
+    color: rgba(0, 0, 0, .6);
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 20px;
+    vertical-align: top;
+    margin-inline-start: 4px;
+  }
+
+  :global {
+    .iconfont {
+      vertical-align: top;
+      font-size: 24px;
+      line-height: 20px;
+    }
+  }
+
 }
